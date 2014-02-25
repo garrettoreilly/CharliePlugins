@@ -10,7 +10,7 @@ import charlie.card.Card;
 import charlie.card.Hand;
 import charlie.plugin.IAdvisor;
 import charlie.util.Play;
-import static charlie.util.Play.HIT;
+//import static charlie.util.Play.*;
 
 /**
  *
@@ -20,6 +20,9 @@ public class Advisor implements IAdvisor {
     @Override
     public Play advise(Hand myHand,Card upCard)
     {
-        return HIT;
+        //int[] handValue = myHand.getValues();
+        BasicStrategy bot =  new BasicStrategy();
+        return bot.getPlay(myHand, upCard);
+        //return HIT;
     }
 }
