@@ -8,7 +8,7 @@ package charlieplugins;
 
 /**
  *
- * @author Thomas Wojnar
+ * @author Thomas Wojnar, Garrett Oreilly
  */
 public class CharliePlugins {
 
