@@ -102,12 +102,39 @@ public class BasicStrategy {
     
     public Play lowerHard(Hand inHand, Card inCard)
     {
-        return HIT;
+        int handValue = inHand.getValues()[Constant.HAND_LITERAL_VALUE];
+        int upCardValue = inCard.value();
+        if(upCardValue == 1) {
+            upCardValue = 11;
+        }
+        Play returnedPlay = HIT;
+        if(handValue == 9 && (upCardValue >= 3 && upCardValue <= 6)) {
+            returnedPlay = DOUBLE_DOWN;
+        }
+        else if(handValue == 10 && (upCardValue >= 2 && upCardValue <= 9)) {
+            returnedPlay = DOUBLE_DOWN;
+        }
+        else if(handValue == 11 && (upCardValue >= 2 && upCardValue <= 10)) {
+            returnedPlay = DOUBLE_DOWN;
+        }
+        return returnedPlay;
     }
     
     public Play higherHard(Hand inHand, Card inCard)
     {
-        return STAY;
+        int handValue = inHand.getValues()[Constant.HAND_LITERAL_VALUE];
+        int upCardValue = inCard.value();
+        if(upCardValue == 1) {
+            upCardValue = 11;
+        }
+        Play returnedPlay = STAY;
+        if(handValue == 12 && (upCardValue == 2 || upCardValue == 3)) {
+            returnedPlay = HIT;
+        }
+        else if((handValue >= 12 && handValue <= 16) && (upCardValue >= 7 && upCardValue <= 11)) {
+            returnedPlay = HIT;
+        }
+        return returnedPlay;
     }
     
 }
