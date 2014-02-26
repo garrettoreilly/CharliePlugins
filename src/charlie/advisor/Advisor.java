@@ -21,8 +21,8 @@ public class Advisor implements IAdvisor {
     public Play advise(Hand myHand,Card upCard)
     {
         //int[] handValue = myHand.getValues();
-        BasicStrategy bot =  new BasicStrategy();
-        return bot.getPlay(myHand, upCard);
+        //BasicStrategy bot =  new BasicStrategy();
+        return BasicStrategy.getPlay(myHand, upCard);
         //return HIT;
     }
 }

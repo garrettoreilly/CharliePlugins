@@ -17,7 +17,7 @@ import static charlie.util.Play.*;
  * @author Thomas Wojnar, Garrett Oreilly
  */
 public class BasicStrategy {
-    public Play getPlay(Hand inHand, Card inCard)
+    public static Play getPlay(Hand inHand, Card inCard)
     {   
         int[] handValues = inHand.getValues();
         int hardHandValue = handValues[Constant.HAND_LITERAL_VALUE];
@@ -38,7 +38,7 @@ public class BasicStrategy {
         return returnedPlay;
     }
     
-    public Play sameCard(Hand inHand, Card inCard)
+    private static Play sameCard(Hand inHand, Card inCard)
     {
         int cardValue = inHand.getCard(0).value();
         int upCardValue = inCard.value();
@@ -67,7 +67,7 @@ public class BasicStrategy {
         return returnedPlay;
     }
     
-    public Play aceHand(Hand inHand, Card inCard)
+    private static Play aceHand(Hand inHand, Card inCard)
     {
         int cardValue1 = inHand.getCard(0).value();
         int cardValue2 = inHand.getCard(1).value();
@@ -100,7 +100,7 @@ public class BasicStrategy {
         return returnedPlay;
     }
     
-    public Play lowerHard(Hand inHand, Card inCard)
+    private static Play lowerHard(Hand inHand, Card inCard)
     {
         int handValue = inHand.getValues()[Constant.HAND_LITERAL_VALUE];
         int upCardValue = inCard.value();
@@ -120,7 +120,7 @@ public class BasicStrategy {
         return returnedPlay;
     }
     
-    public Play higherHard(Hand inHand, Card inCard)
+    private static Play higherHard(Hand inHand, Card inCard)
     {
         int handValue = inHand.getValues()[Constant.HAND_LITERAL_VALUE];
         int upCardValue = inCard.value();
