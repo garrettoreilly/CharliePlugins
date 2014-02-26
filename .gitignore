@@ -1,6 +1,4 @@
 *.class
-*.xml
-*.properties
 
 # Package Files #
 *.war
