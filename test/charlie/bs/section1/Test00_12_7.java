@@ -23,7 +23,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Garrett
+ * @author Garrett, Cat
  */
 public class Test00_12_7 {
 	
