@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author Thomas Wojnar
+ * @author Thomas Wojnar, Garrett
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
