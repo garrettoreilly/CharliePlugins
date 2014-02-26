@@ -85,10 +85,10 @@ public class BasicStrategy {
         if ((cardValueToUse == 2 || cardValueToUse == 3) && (upCardValue == 5 || upCardValue == 6)) {
             returnedPlay = DOUBLE_DOWN;
         }
-        else if ((cardValueToUse == 4 || cardValueToUse == 5) && (upCardValue >= 4 || upCardValue <= 6)) {
+        else if ((cardValueToUse == 4 || cardValueToUse == 5) && (upCardValue >= 4 && upCardValue <= 6)) {
             returnedPlay = DOUBLE_DOWN;
         }
-        else if ((cardValueToUse == 6 || cardValueToUse == 7) && (upCardValue >= 3 || upCardValue <= 6)) {
+        else if ((cardValueToUse == 6 || cardValueToUse == 7) && (upCardValue >= 3 && upCardValue <= 6)) {
             returnedPlay = DOUBLE_DOWN;
         }
         else if ((cardValueToUse == 7)  && (upCardValue == 2 || upCardValue == 7 || upCardValue == 8)) {
