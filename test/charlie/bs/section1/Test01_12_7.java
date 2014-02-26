@@ -30,27 +30,6 @@ public class Test01_12_7 {
 	public Test01_12_7() {
 	}
 	
-	@BeforeClass
-	public static void setUpClass() {
-	}
-	
-	@AfterClass
-	public static void tearDownClass() {
-	}
-	
-	@Before
-	public void setUp() {
-	}
-	
-	@After
-	public void tearDown() {
-	}
-
-    // TODO add test methods here.
-	// The methods must be annotated with annotation @Test. For example:
-	//
-	// @Test
-	// public void hello() {}
 	@Test
 	public void test01()
 	{
