@@ -43,7 +43,7 @@ public class Test00_22_7 {
 		Advisor advisor = new Advisor();
 		Play result = advisor.advise(userHand, upCard);
 		Play expected = SPLIT;
-		assertEquals(result, expected);
+		assertEquals(expected, result);
 	}
 }
 
