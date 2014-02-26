@@ -25,9 +25,9 @@ import org.junit.Test;
  *
  * @author Thomas Wojnar, Garrett Oreilly
  */
-public class Test01_12_06 {
+public class Test00_12_2 {
     
-    public Test01_12_06() {
+    public Test00_12_2() {
     }
     
     @BeforeClass
@@ -52,20 +52,18 @@ public class Test01_12_06 {
     // @Test
     // public void hello() {}
     @Test
-    public void test01()
+    public void test00()
     {
         Hid hid = new Hid(YOU, 0.0, 0.0);
-        Card card1 = new Card(11, HEARTS);
+        Card card1 = new Card(4, HEARTS);
         Card card2 = new Card(8, DIAMONDS);
-        Card card3 = new Card(7, DIAMONDS);
-        Card upCard = new Card(5, SPADES);
+        Card upCard = new Card(2, SPADES);
         Hand userHand = new Hand(hid);
         userHand.hit(card1);
         userHand.hit(card2);
-        userHand.hit(card3);
         Advisor advisor = new Advisor();
         Play result = advisor.advise(userHand, upCard);
-        Play expected = STAY;
+        Play expected = HIT;
         assertEquals(result, expected);
     }
 }
