@@ -19,21 +19,21 @@ import static charlie.util.Play.*;
 public class BasicStrategy {
     public static Play getPlay(Hand inHand, Card inCard)
     {   
-        int[] handValues = inHand.getValues();
-        int hardHandValue = handValues[Constant.HAND_LITERAL_VALUE];
-        Play returnedPlay = NONE;
+        int[] handValues = inHand.getValues(); //gets both of the hand values.
+        int hardHandValue = handValues[Constant.HAND_LITERAL_VALUE]; //gets hard hand value.
+        Play returnedPlay;
         
-        if (inHand.getCard(0).value() == inHand.getCard(1).value() && inHand.size() == 2) {
+        if (inHand.getCard(0).value() == inHand.getCard(1).value() && inHand.size() == 2) { //check if two cards that are the same.
             returnedPlay = sameCard(inHand, inCard);
         }
-        else if (handValues[0] != handValues[1] && inHand.size() == 2) {
+        else if (handValues[0] != handValues[1] && inHand.size() == 2) { //check if the hand values are the same, if not, there is an ace and another card.
             returnedPlay = aceHand(inHand, inCard);
         }
-        else if (hardHandValue >= 5 && hardHandValue <= 11) {
+        else if (hardHandValue >= 5 && hardHandValue <= 11) { //low range range.
             returnedPlay = lowerHard(inHand, inCard);
         }
         else {
-            returnedPlay = higherHard(inHand, inCard);
+            returnedPlay = higherHard(inHand, inCard); //high range hand.
         }
         return returnedPlay;
     }
@@ -42,11 +42,11 @@ public class BasicStrategy {
     {
         int cardValue = inHand.getCard(0).value();
         int upCardValue = inCard.value();
-        if (upCardValue == 1) {
+        if (upCardValue == 1) { //for simplicity sake.
             upCardValue = 11;
         }
-        Play returnedPlay = SPLIT;
-        if (cardValue == 5 && (upCardValue >= 2 && upCardValue <= 9)) {
+        Play returnedPlay = SPLIT; //most common outcome. Now for the logic of the others, in blocks.
+        if (cardValue == 5 && (upCardValue >= 2 && upCardValue <= 9)) { //this first to make the logic easier for the large block of HITS on the right side.
             returnedPlay = DOUBLE_DOWN;
         }
         else if ((cardValue >= 2 && cardValue <= 7) && (upCardValue >= 8 && upCardValue <= 11)) {
@@ -71,8 +71,8 @@ public class BasicStrategy {
     {
         int cardValue1 = inHand.getCard(0).value();
         int cardValue2 = inHand.getCard(1).value();
-        int cardValueToUse = 0;
-        if (cardValue1 == 1) {
+        int cardValueToUse;
+        if (cardValue1 == 1) { //figure out what is the value that is not the Ace.
             cardValueToUse = cardValue2;
         } else {
             cardValueToUse = cardValue1;
