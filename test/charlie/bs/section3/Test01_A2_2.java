@@ -25,24 +25,24 @@ import org.junit.Test;
  *
  * @author Garrett, Cat
  */
-public class Test00_A2_6 {
+public class Test01_A2_2 {
 	
-	public Test00_A2_6() {
+	public Test01_A2_2() {
 	}
 	
 	@Test
-	public void test00()
+	public void test01()
 	{
 		Hid hid = new Hid(YOU, 0.0, 0.0);
 		Card card1 = new Card(1, SPADES);
-		Card card2 = new Card(7, DIAMONDS);
-		Card upCard = new Card(3, HEARTS);
+		Card card2 = new Card(8, SPADES);
+		Card upCard = new Card(4, SPADES);
 		Hand userHand = new Hand(hid);
 		userHand.hit(card1);
 		userHand.hit(card2);
 		Advisor advisor = new Advisor();
 		Play result = advisor.advise(userHand, upCard);
-		Play expected = DOUBLE_DOWN;
+		Play expected = STAY;
 		assertEquals(expected, result);
 	}
 }

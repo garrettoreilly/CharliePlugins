@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package charlie.bs.section3;
+package charlie.bs.section4;
 
 import charlie.advisor.Advisor;
 import charlie.card.Card;
