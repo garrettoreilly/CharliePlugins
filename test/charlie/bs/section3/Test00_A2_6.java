@@ -43,6 +43,6 @@ public class Test00_A2_6 {
 		Advisor advisor = new Advisor();
 		Play result = advisor.advise(userHand, upCard);
 		Play expected = DOUBLE_DOWN;
-		assertEquals(result, expected);
+		assertEquals(expected, result);
 	}
 }
