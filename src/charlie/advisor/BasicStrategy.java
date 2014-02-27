@@ -117,7 +117,12 @@ public class BasicStrategy {
         else if (cardValueToUse >= 8 && cardValueToUse <= 10) {
             returnedPlay = STAY;
         }
-        return returnedPlay;
+
+        if (handSize > 2 && returnedPlay == DOUBLE_DOWN) {
+            return HIT;
+        } else {
+            return returnedPlay;
+        }
     }
     
     private static Play lowerHard(Hand inHand, Card inCard)
