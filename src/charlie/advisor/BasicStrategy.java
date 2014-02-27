@@ -26,7 +26,7 @@ public class BasicStrategy {
         if (inHand.getCard(0).value() == inHand.getCard(1).value() && inHand.size() == 2) { //check if two cards that are the same.
             returnedPlay = sameCard(inHand, inCard);
         }
-        else if (handValues[0] != handValues[1] && inHand.size() == 2) { //check if the hand values are the same, if not, there is an ace and another card.
+        else if (handValues[0] != handValues[1] /*&& inHand.size() == 2*/) { //check if the hand values are the same, if not, there is an ace and another card.
             returnedPlay = aceHand(inHand, inCard);
         }
         else if (hardHandValue >= 5 && hardHandValue <= 11) { //low range range.
@@ -69,6 +69,7 @@ public class BasicStrategy {
     
     private static Play aceHand(Hand inHand, Card inCard)
     {
+        /*
         int cardValue1 = inHand.getCard(0).value();
         int cardValue2 = inHand.getCard(1).value();
         int cardValueToUse;
@@ -77,6 +78,19 @@ public class BasicStrategy {
         } else {
             cardValueToUse = cardValue1;
         }
+        */
+        int handSize = inHand.size();
+        int cardValueToUse = 0;
+        for (int i = 0; i < handSize; i++) {
+            int currentCard = inHand.getCard(i).value();
+            if (currentCard != 1) {
+                cardValueToUse = cardValueToUse + currentCard;
+            }
+        }
+        if (cardValueToUse + 11 > 21) {
+            return higherHard(inHand, inCard);
+        }
+        
         int upCardValue = inCard.value();
         if (upCardValue == 1) {
             upCardValue = 11;
