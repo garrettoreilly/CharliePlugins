@@ -80,10 +80,16 @@ public class BasicStrategy {
         }
         */
         int handSize = inHand.size();
+        int numAces = 0;
         int cardValueToUse = 0;
         for (int i = 0; i < handSize; i++) {
             int currentCard = inHand.getCard(i).value();
-            if (currentCard != 1) {
+            if (currentCard == 1) {
+                numAces++;
+                if (numAces > 1){
+                    cardValueToUse = cardValueToUse + 1;
+                }
+            } else {
                 cardValueToUse = cardValueToUse + currentCard;
             }
         }
