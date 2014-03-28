@@ -6,7 +6,7 @@
 
 package charlie.bot.server;
 
-import static charlie.advisor.BasicStrategy.getPlay;
+import charlie.advisor.BasicStrategy;
 import charlie.card.Card;
 import charlie.util.Play;
 import charlie.card.Hand;
@@ -38,11 +38,10 @@ public class Responder implements Runnable {
     @Override
     public void run()
     {
-        Card upCard = dealerHand.getCard(1);
+        Card upCard = dealerHand.getCard(0);
+        //LOG.info(upCard.toString());
         Play advice;
-        //LOG.info("meow");
-        advice = getPlay(this.botHand, upCard);
-        LOG.info("got basic advice");
+        advice = BasicStrategy.getPlay(this.botHand, upCard);
         if(this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
             advice = HIT;
         }
@@ -58,26 +57,24 @@ public class Responder implements Runnable {
                 advice = HIT;
             }
         }
-        LOG.info("modified advice");
-        /*
+        
         try {
             Thread.sleep(2500);
         } catch (InterruptedException e) {
-            LOG.info("invalid thread-thingy meow");
+            LOG.info("invalid thread");
         }
-        */
+        
         if(advice == HIT) {
-            this.dealer.hit(bot, this.botHand.getHid());
+            this.dealer.hit(this.bot, this.botHand.getHid());
         }
         else if(advice == STAY) {
-            this.dealer.stay(bot, this.botHand.getHid());
+            this.dealer.stay(this.bot, this.botHand.getHid());
         }
         else if(advice == DOUBLE_DOWN) {
-            this.dealer.doubleDown(bot, this.botHand.getHid());
+            this.dealer.doubleDown(this.bot, this.botHand.getHid());
         }
         else {
-            LOG.info("invalid play meow");
+            LOG.info("invalid play");
         }
-        LOG.info("send, I think");
     }
 }
