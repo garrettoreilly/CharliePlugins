@@ -166,11 +166,9 @@ public class SideBetView implements ISideBetView {
         int y = Y + fm.getHeight() / 4;
         
         g.drawString(amt+"", x, y);
-        //g.drawString(""+amt, X-5, Y+5);
 
-        g.drawString(""+amt, X-5, Y+5);
-	g.drawString("such render", 520, 150);
-	g.drawString("very draw", 520, 170);
-	g.drawString("wow", 520, 190);
+	g.drawString("SUPER 7 pays 3:1", 450, 150);
+	g.drawString("ROYAL MATCH pays 25:1", 450, 170);
+	g.drawString("EXACTLY 13 pays 1:1", 450, 190);
     }
 }
