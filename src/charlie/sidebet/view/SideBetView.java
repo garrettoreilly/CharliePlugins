@@ -33,6 +33,7 @@ import charlie.view.sprite.ChipButton;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.util.List;
 import org.slf4j.Logger;
@@ -159,6 +160,12 @@ public class SideBetView implements ISideBetView {
         // Draw the at-stake amount
         g.setFont(font);
         g.setColor(Color.WHITE);
-        g.drawString(""+amt, X-5, Y+5);
+        String text = amt + "";
+        FontMetrics fm = g.getFontMetrics(font);
+        int x = X - fm.charsWidth(text.toCharArray(), 0, text.length()) / 2;
+        int y = Y + fm.getHeight() / 4;
+        
+        g.drawString(amt+"", x, y);
+        //g.drawString(""+amt, X-5, Y+5);
     }
 }
