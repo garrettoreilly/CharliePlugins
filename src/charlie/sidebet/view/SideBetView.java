@@ -28,6 +28,8 @@ import charlie.audio.SoundFactory;
 import charlie.card.Hid;
 import charlie.plugin.ISideBetView;
 import charlie.view.AMoneyManager;
+import charlie.view.sprite.AtStakeSprite;
+import charlie.view.sprite.Chip;
 
 import charlie.view.sprite.ChipButton;
 import java.awt.BasicStroke;
@@ -35,6 +37,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,6 +52,8 @@ public class SideBetView implements ISideBetView {
     public final static int X = 400;
     public final static int Y = 200;
     public final static int DIAMETER = 50;
+    protected AtStakeSprite wager = new AtStakeSprite(X,Y,0);
+    protected List<Chip> chips = new ArrayList<>();
     
     protected Font font = new Font("Arial", Font.BOLD, 18);
     protected BasicStroke stroke = new BasicStroke(3);
@@ -97,8 +102,9 @@ public class SideBetView implements ISideBetView {
             } 
         }
         
-        if(oldAmt == amt) {
+        if(this.wager.isPressed(x, y)) {
             amt = 0;
+            chips.clear();
             LOG.info("B. side bet amount cleared");
 	    SoundFactory.play(Effect.CHIPS_OUT);
         }
