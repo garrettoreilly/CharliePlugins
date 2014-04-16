@@ -27,6 +27,7 @@ import charlie.card.Card;
 import charlie.card.Hand;
 import charlie.plugin.ISideBetRule;
 import charlie.util.Constant;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +73,7 @@ public class SideBetRule implements ISideBetRule {
             LOG.info("side bet EXACTLY 13 matches");
             return bet * PAYOFF_EXACTLY13;
         }
-        else if(((card1.value() == Card.KING && card2.value() == Card.QUEEN) || (card1.value() == Card.QUEEN && card2.value() == Card.KING)) && (card1.getSuit() == card2.getSuit())) {
+        else if(royalMatch(card1, card2) && (card1.getSuit() == card2.getSuit())) {
             LOG.info("side bet ROYAL MATCH matches");
             return bet * PAYOFF_ROYALMATCH;
         }
@@ -81,4 +82,18 @@ public class SideBetRule implements ISideBetRule {
         
         return -bet;
     }
+    
+    
+    private boolean royalMatch(Card card1, Card card2) {
+        int[] handArray = new int[2];
+        handArray[0] = card1.value();
+        handArray[1] = card2.value();
+        if(Arrays.asList(handArray).contains(Card.KING) && Arrays.asList(handArray).contains(Card.QUEEN)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 }
