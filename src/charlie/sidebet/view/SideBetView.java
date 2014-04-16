@@ -171,10 +171,10 @@ public class SideBetView implements ISideBetView {
         int x = X - fm.charsWidth(text.toCharArray(), 0, text.length()) / 2;
         int y = Y + fm.getHeight() / 4;
         
-        g.drawString(amt+"", x, y);
-
 	g.drawString("SUPER 7 pays 3:1", 445, 150);
 	g.drawString("ROYAL MATCH pays 25:1", 445, 170);
 	g.drawString("EXACTLY 13 pays 1:1", 445, 190);
+
+        g.drawString(amt+"", x, y);
     }
 }
