@@ -173,8 +173,8 @@ public class SideBetView implements ISideBetView {
         
         g.drawString(amt+"", x, y);
 
-	g.drawString("SUPER 7 pays 3:1", 450, 150);
-	g.drawString("ROYAL MATCH pays 25:1", 450, 170);
-	g.drawString("EXACTLY 13 pays 1:1", 450, 190);
+	g.drawString("SUPER 7 pays 3:1", 445, 150);
+	g.drawString("ROYAL MATCH pays 25:1", 445, 170);
+	g.drawString("EXACTLY 13 pays 1:1", 445, 190);
     }
 }
