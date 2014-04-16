@@ -73,7 +73,7 @@ public class SideBetRule implements ISideBetRule {
             LOG.info("side bet EXACTLY 13 matches");
             return bet * PAYOFF_EXACTLY13;
         }
-        else if(((card1.value() == Card.KING && card2.value() == Card.QUEEN) || (card1.value() == Card.QUEEN && card2.value() == Card.KING)) && (card1.getSuit() == card2.getSuit())) {
+        else if(((card1.getRank() == Card.KING && card2.getRank() == Card.QUEEN) || (card1.getRank() == Card.QUEEN && card2.getRank() == Card.KING)) && (card1.getSuit() == card2.getSuit())) {
             LOG.info("side bet ROYAL MATCH matches");
             return bet * PAYOFF_ROYALMATCH;
         }
