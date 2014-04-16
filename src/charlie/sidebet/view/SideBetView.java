@@ -27,6 +27,7 @@ import charlie.audio.Effect;
 import charlie.audio.SoundFactory;
 import charlie.card.Hid;
 import charlie.plugin.ISideBetView;
+import charlie.util.Constant;
 import charlie.view.AMoneyManager;
 import charlie.view.sprite.AtStakeSprite;
 import charlie.view.sprite.Chip;
@@ -37,8 +38,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import javax.swing.ImageIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,8 +56,16 @@ public class SideBetView implements ISideBetView {
     public final static int X = 400;
     public final static int Y = 200;
     public final static int DIAMETER = 50;
-    protected AtStakeSprite wager = new AtStakeSprite(X,Y,0);
+    protected AtStakeSprite sideWager = new AtStakeSprite(375,175,0);
+    
     protected List<Chip> chips = new ArrayList<>();
+    protected Random ran = new Random();
+    protected Integer[] amounts = { 100, 25, 5 };
+    protected final static String[] UP_FILES =
+        {"chip-100-1.png","chip-25-1.png","chip-5-1.png"};
+    ImageIcon icon = new ImageIcon(Constant.DIR_IMGS+UP_FILES[0]);
+    Image img = icon.getImage();
+    private final int width = img.getWidth(null);
     
     protected Font font = new Font("Arial", Font.BOLD, 18);
     protected BasicStroke stroke = new BasicStroke(3);
@@ -94,15 +106,25 @@ public class SideBetView implements ISideBetView {
         int oldAmt = amt;
         
         // Test if any chip button has been pressed.
-        for(ChipButton button: buttons) {
-            if(button.isPressed(x, y)) {
+        for(int i=0; i < buttons.size(); i++) {
+            ChipButton button = buttons.get(i);
+            if(button.isReady() && button.isPressed(x, y)) {
+                int n = chips.size();
+                
+                int placeX = X + n * width/3 + ran.nextInt(10) + 25;
+                
+                int placeY = Y + ran.nextInt(5) - 25;
+                
+                Chip chip = new Chip(button.getImage(),placeX,placeY,amounts[i]);
+                
+                chips.add(chip);
                 amt += button.getAmt();
                 LOG.info("A. side bet amount "+button.getAmt()+" updated new amt = "+amt);
 		SoundFactory.play(Effect.CHIPS_IN);
             } 
         }
         
-        if(this.wager.isPressed(x, y)) {
+        if(this.sideWager.isPressed(x, y)) {
             amt = 0;
             chips.clear();
             LOG.info("B. side bet amount cleared");
@@ -172,9 +194,14 @@ public class SideBetView implements ISideBetView {
         int y = Y + fm.getHeight() / 4;
         
         g.drawString(amt+"", x, y);
-
+        g.setColor(Color.BLACK);
 	g.drawString("SUPER 7 pays 3:1", 445, 150);
 	g.drawString("ROYAL MATCH pays 25:1", 445, 170);
 	g.drawString("EXACTLY 13 pays 1:1", 445, 190);
+        
+         for(int i=0; i < chips.size(); i++) {
+            Chip chip = chips.get(i);
+            chip.render(g);
+        }
     }
 }
