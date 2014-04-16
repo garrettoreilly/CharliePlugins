@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2014 Ron Coleman
 
- Permission is hereby granted, free of charge, to any person obtaining
+
  a copy of this software and associated documentation files (the
  "Software"), to deal in the Software without restriction, including
  without limitation the rights to use, copy, modify, merge, publish,
@@ -33,6 +33,7 @@ import charlie.view.sprite.ChipButton;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.util.List;
 import org.slf4j.Logger;
@@ -159,6 +160,14 @@ public class SideBetView implements ISideBetView {
         // Draw the at-stake amount
         g.setFont(font);
         g.setColor(Color.WHITE);
+        String text = amt + "";
+        FontMetrics fm = g.getFontMetrics(font);
+        int x = X - fm.charsWidth(text.toCharArray(), 0, text.length()) / 2;
+        int y = Y + fm.getHeight() / 4;
+        
+        g.drawString(amt+"", x, y);
+        //g.drawString(""+amt, X-5, Y+5);
+
         g.drawString(""+amt, X-5, Y+5);
 	g.drawString("such render", 520, 150);
 	g.drawString("very draw", 520, 170);
