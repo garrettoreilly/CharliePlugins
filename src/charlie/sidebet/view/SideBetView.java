@@ -23,7 +23,7 @@
 
 package charlie.sidebet.view;
 
-import static charlie.audio.Effect.*;
+import charlie.audio.Effect;
 import charlie.audio.SoundFactory;
 import charlie.card.Hid;
 import charlie.plugin.ISideBetView;
@@ -92,14 +92,14 @@ public class SideBetView implements ISideBetView {
             if(button.isPressed(x, y)) {
                 amt += button.getAmt();
                 LOG.info("A. side bet amount "+button.getAmt()+" updated new amt = "+amt);
-		SoundFactory.play(CHIPS_IN);
+		SoundFactory.play(Effect.CHIPS_IN);
             } 
         }
         
         if(oldAmt == amt) {
             amt = 0;
             LOG.info("B. side bet amount cleared");
-	    SoundFactory.play(CHIPS_OUT);
+	    SoundFactory.play(Effect.CHIPS_OUT);
         }
     }
 
@@ -160,5 +160,8 @@ public class SideBetView implements ISideBetView {
         g.setFont(font);
         g.setColor(Color.WHITE);
         g.drawString(""+amt, X-5, Y+5);
+	g.drawString("such render", 520, 150);
+	g.drawString("very draw", 520, 170);
+	g.drawString("wow", 520, 190);
     }
 }
