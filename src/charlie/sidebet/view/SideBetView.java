@@ -54,9 +54,9 @@ public class SideBetView implements ISideBetView {
     private final Logger LOG = LoggerFactory.getLogger(SideBetView.class);
     
     public final static int X = 400;
-    public final static int Y = 200;
+    public final static int Y = 206;
     public final static int DIAMETER = 50;
-    protected AtStakeSprite sideWager = new AtStakeSprite(375,175,0);
+    protected AtStakeSprite sideWager = new AtStakeSprite(375,181,0);
     
     protected Hid hid;
     protected Font outcomeFont = new Font("Arial", Font.BOLD, 18);
@@ -122,7 +122,7 @@ public class SideBetView implements ISideBetView {
                 
                 int placeX = X + n * width/3 + ran.nextInt(10) + 25;
                 
-                int placeY = Y + ran.nextInt(5) - 25;
+                int placeY = Y + ran.nextInt(5) - 22;
                 
                 Chip chip = new Chip(button.getImage(),placeX,placeY,amounts[i]);
                 
@@ -191,6 +191,8 @@ public class SideBetView implements ISideBetView {
     @Override
     public void render(Graphics2D g) {
         
+        //this.sideWager.render(g);
+        
         // Draw the at-stake place on the table
         g.setColor(Color.RED); 
         g.setStroke(dashed);
@@ -205,16 +207,20 @@ public class SideBetView implements ISideBetView {
         int y = Y + fm.getHeight() / 4;
         
         g.drawString(amt+"", x, y);
+        
+        //draw the side bet rules
         g.setColor(Color.BLACK);
 	g.drawString("SUPER 7 pays 3:1", 445, 150);
 	g.drawString("ROYAL MATCH pays 25:1", 445, 170);
 	g.drawString("EXACTLY 13 pays 1:1", 445, 190);
         
-         for(int i=0; i < chips.size(); i++) {
+        //draw the chips
+        for(int i=0; i < chips.size(); i++) {
             Chip chip = chips.get(i);
             chip.render(g);
         }
         
+        //check if we need to render outcome of sidebet.
         double bet = 0.0;
         if(this.hid != null) {
            bet = hid.getSideAmt(); 
@@ -233,10 +239,14 @@ public class SideBetView implements ISideBetView {
                 g.setColor(winColorBg); 
                 outcomeText = " WIN ! "; 
             }
+            //generate x, y, w, h for the new strings
+            x = X - fm.charsWidth(outcomeText.toCharArray(), 0, outcomeText.length()) / 2;
+            y = Y + fm.getHeight() / 4;
+            
             int w = fm.charsWidth(outcomeText.toCharArray(), 0, outcomeText.length());
             int h = fm.getHeight();
 
-            g.fillRoundRect(x + 50, y - 15, w, h, 5, 5);
+            g.fillRoundRect(x + 75, y - 15, w, h, 5, 5);
 
             // Paint the outcome foreground            
             if (bet < 0.0)
@@ -245,7 +255,7 @@ public class SideBetView implements ISideBetView {
                 g.setColor(winColorFg);    
 
             g.setFont(outcomeFont);
-            g.drawString(outcomeText,x+50,y + 2);
+            g.drawString(outcomeText, x + 75, y + 2);
         }
          
     }
