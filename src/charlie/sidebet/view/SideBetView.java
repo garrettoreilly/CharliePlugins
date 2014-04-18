@@ -58,6 +58,15 @@ public class SideBetView implements ISideBetView {
     public final static int DIAMETER = 50;
     protected AtStakeSprite sideWager = new AtStakeSprite(375,175,0);
     
+    protected Hid hid;
+    protected Font outcomeFont = new Font("Arial", Font.BOLD, 18);
+    protected Color looseColorBg = new Color(250,58,5);
+    protected Color looseColorFg = Color.WHITE;
+    protected Color winColorFg = Color.BLACK;
+    protected Color winColorBg = new Color(116,255,4);
+    protected Color pushColorFg = Color.BLACK;
+    protected Color pushColorBg = Color.CYAN;
+    
     protected List<Chip> chips = new ArrayList<>();
     protected Random ran = new Random();
     protected Integer[] amounts = { 100, 25, 5 };
@@ -139,7 +148,7 @@ public class SideBetView implements ISideBetView {
     @Override
     public void ending(Hid hid) {
         double bet = hid.getSideAmt();
-        
+        this.hid = hid;
         if(bet == 0)
             return;
 
@@ -156,6 +165,7 @@ public class SideBetView implements ISideBetView {
      */
     @Override
     public void starting() {
+        this.hid = null;
     }
 
     /**
@@ -204,5 +214,39 @@ public class SideBetView implements ISideBetView {
             Chip chip = chips.get(i);
             chip.render(g);
         }
+        
+        double bet = 0.0;
+        if(this.hid != null) {
+           bet = hid.getSideAmt(); 
+        }
+         
+        if(bet != 0.0) {
+            // Figure the outcome text
+            String outcomeText;
+            
+            // Paint the outcome background            
+            if (bet < 0.0) {
+                g.setColor(looseColorBg);
+                outcomeText = " LOSE ! ";  
+            }
+            else {
+                g.setColor(winColorBg); 
+                outcomeText = " WIN ! "; 
+            }
+            int w = fm.charsWidth(outcomeText.toCharArray(), 0, outcomeText.length());
+            int h = fm.getHeight();
+
+            g.fillRoundRect(x + 50, y - 15, w, h, 5, 5);
+
+            // Paint the outcome foreground            
+            if (bet < 0.0)
+                g.setColor(looseColorFg);
+            else
+                g.setColor(winColorFg);    
+
+            g.setFont(outcomeFont);
+            g.drawString(outcomeText,x+50,y + 2);
+        }
+         
     }
 }
