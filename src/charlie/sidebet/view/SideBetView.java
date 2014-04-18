@@ -180,6 +180,7 @@ public class SideBetView implements ISideBetView {
      */
     @Override
     public void render(Graphics2D g) {
+        
         // Draw the at-stake place on the table
         g.setColor(Color.RED); 
         g.setStroke(dashed);
