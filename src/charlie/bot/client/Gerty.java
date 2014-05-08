@@ -40,7 +40,7 @@ public class Gerty implements IGerty{
     protected Hid hid;
     protected double numberOfDecks;
     protected int runningCount = 0;
-    protected double trueCount;
+    protected double trueCount = 0;
     protected Hand botHand;
     protected Card upCard;
     protected int pushes;
@@ -52,9 +52,14 @@ public class Gerty implements IGerty{
     protected int gameCount = 0;
     protected double avgBet = 0;
     protected DecimalFormat df = new DecimalFormat("#.##");
+    protected DecimalFormat dfTrueCount = new DecimalFormat("#.####");
     protected int maxBet = 0;
+    protected long currentTime;
+    protected long currentMinutes;
+    protected String currentSeconds;
     protected Font font = new Font("Arial", Font.PLAIN, 18);
     protected Color textColor = Color.WHITE;
+    protected long startTime = 0;
     
     @Override
      public void go( )
@@ -64,6 +69,9 @@ public class Gerty implements IGerty{
             LOG.info("runningCount = " + this.runningCount);
             LOG.info("trueCount = " + this.trueCount);
             LOG.info("betAmount = " + this.betAmount);
+         }
+         else {
+             startTime = System.currentTimeMillis();
          }
          if(this.lastBet > this.betAmount) {
              this.moneyManager.clearBet();
@@ -131,22 +139,37 @@ public class Gerty implements IGerty{
     @Override
     public void render(Graphics2D g)
     {
-       g.setFont(font);
-       g.setColor(textColor);
-       g.drawString("Pushes: " + pushes, 5, 390);
-       g.drawString("Losses: " + losses, 5, 370);
-       g.drawString("Breaks: " + busts, 5, 350);
-       g.drawString("Wins: " + wins, 5, 330);
-       g.drawString("Charlies: " + charlies, 5, 310);
-       g.drawString("Blackjacks: " + blackjacks, 5, 290);
-       g.drawString("Mean bet: " + df.format(avgBet), 5, 270);
-       g.drawString("Max bet: " + maxBet, 5, 250);
-       g.drawString("Minutes: ", 5, 230);
-       g.drawString("Games: " + gameCount, 5, 210);
-       g.drawString("True count: ", 5, 190);
-       g.drawString("Running count: ", 5, 170);
-       g.drawString("Shoe size: ", 5, 150);
-       g.drawString("Counting system: Hi-Lo", 5, 130);
+        //long currentTime;
+        if(startTime == 0) {
+            currentMinutes = 0;
+            currentSeconds = "00";
+        }
+        else {
+            currentTime = (System.currentTimeMillis() - startTime);
+            currentMinutes = currentTime / 60000;
+            currentSeconds = Long.toString(currentTime / 1000 % 60);
+            
+            if(Integer.parseInt(currentSeconds) < 10) {
+                currentSeconds = "0" + currentSeconds;
+            }
+        }
+        //long currentTime = System.currentTimeMillis() - startTime;
+        g.setFont(font);
+        g.setColor(textColor);
+        g.drawString("Pushes: " + pushes, 3, 390);
+        g.drawString("Losses: " + losses, 3, 370);
+        g.drawString("Breaks: " + busts, 3, 350);
+        g.drawString("Wins: " + wins, 3, 330);
+        g.drawString("Charlies: " + charlies, 3, 310);
+        g.drawString("Blackjacks: " + blackjacks, 3, 290);
+        g.drawString("Mean bet: " + df.format(avgBet), 3, 270);
+        g.drawString("Max bet: " + maxBet, 3, 250);
+        g.drawString("Game Time: " + currentMinutes + ":" + currentSeconds, 3, 230);
+        g.drawString("Games: " + gameCount, 3, 210);
+        g.drawString("True count: " + dfTrueCount.format(trueCount), 3, 190);
+        g.drawString("Running count: " + runningCount, 3, 170);
+        g.drawString("Shoe size: " + df.format(numberOfDecks), 3, 150);
+        g.drawString("Counting system: Hi-Lo", 3, 130);
     }
     
     /**
@@ -176,6 +199,15 @@ public class Gerty implements IGerty{
 	if (betAmount > maxBet) {
 		maxBet = betAmount;
 	}
+        
+        if(this.gameCount == 100) {
+            try {
+                Thread.sleep(500000000);
+            }
+            catch (InterruptedException ex) {
+            }
+        }
+        
     }
     
     /**
