@@ -254,7 +254,8 @@ public class Gerty implements IGerty{
     @Override
     public void shuffling()
     {
-        
+        this.runningCount = 0;
+        this.trueCount = 0;
     }
     
     /**
