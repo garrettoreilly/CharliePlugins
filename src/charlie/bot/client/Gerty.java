@@ -17,6 +17,8 @@ import charlie.plugin.IGerty;
 import charlie.util.Play;
 import static charlie.util.Play.*;
 import charlie.view.AMoneyManager;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.List;
 import org.slf4j.Logger;
@@ -47,6 +49,8 @@ public class Gerty implements IGerty{
     protected int charlies;
     protected int blackjacks;
     protected int gameCount = 0;
+    protected Font font = new Font("Arial", Font.PLAIN, 18);
+    protected Color textColor = Color.WHITE;
     
     @Override
      public void go( )
@@ -123,6 +127,8 @@ public class Gerty implements IGerty{
     @Override
     public void render(Graphics2D g)
     {
+       g.setFont(font);
+       g.setColor(textColor);
        g.drawString("Pushes: " + pushes, 5, 390);
        g.drawString("Losses: " + losses, 5, 370);
        g.drawString("Breaks: " + busts, 5, 350);
