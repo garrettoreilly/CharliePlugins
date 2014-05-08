@@ -47,8 +47,25 @@ public class Responder implements Runnable {
         }
         else if(advice == SPLIT) {
             int handValue = this.botHand.getValue();
+            //LOG.info("hand value= " + handValue);
             if(handValue >= 17) {
                 advice = STAY;
+            }
+            else if(handValue == 14) {
+                if(upCard.value() != 7) {
+                    advice = STAY;
+                }
+                else {
+                    advice = HIT;
+                }
+            }
+            else if(handValue == 12) {
+                if(this.botHand.getCard(0).value() == 6) {
+                    advice = STAY;
+                }
+                else {
+                    advice = DOUBLE_DOWN;
+                }
             }
             else if(handValue == 11) {
                 advice = DOUBLE_DOWN;
