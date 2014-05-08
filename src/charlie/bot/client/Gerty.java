@@ -33,6 +33,13 @@ public class Gerty implements IGerty{
     protected double trueCount;
     protected Hand botHand;
     protected Card upCard;
+    protected int pushes;
+    protected int losses;
+    protected int busts;
+    protected int wins;
+    protected int charlies;
+    protected int blackjacks;
+    
     
     @Override
      public void go( )
@@ -85,7 +92,20 @@ public class Gerty implements IGerty{
     @Override
     public void render(Graphics2D g)
     {
-        
+       g.drawString("Pushes: " + pushes, 5, 390);
+       g.drawString("Losses: " + losses, 5, 370);
+       g.drawString("Breaks: " + busts, 5, 350);
+       g.drawString("Wins: " + wins, 5, 330);
+       g.drawString("Charlies: " + charlies, 5, 310);
+       g.drawString("Blackjacks: " + blackjacks, 5, 290);
+       g.drawString("Mean bet: ", 5, 270);
+       g.drawString("Max bet: ", 5, 250);
+       g.drawString("Minutes: ", 5, 230);
+       g.drawString("Games: ", 5, 210);
+       g.drawString("True count: ", 5, 190);
+       g.drawString("Running count: ", 5, 170);
+       g.drawString("Shoe size: ", 5, 150);
+       g.drawString("Counting system: Hi-Lo", 5, 130);
     }
     
     /**
@@ -152,7 +172,7 @@ public class Gerty implements IGerty{
     @Override
     public void bust(Hid hid)
     {
-        
+        busts++;
     }
     
     /**
@@ -162,7 +182,7 @@ public class Gerty implements IGerty{
      @Override
     public void win(Hid hid)
     {
-        
+        wins++;
     }
     
     /**
@@ -172,7 +192,7 @@ public class Gerty implements IGerty{
     @Override
     public void blackjack(Hid hid)
     {
-        
+        blackjacks++;
     }
     
      /**
@@ -182,7 +202,7 @@ public class Gerty implements IGerty{
     @Override
     public void charlie(Hid hid)
     {
-        
+        charlies++;
     }
     
     /**
@@ -192,7 +212,7 @@ public class Gerty implements IGerty{
     @Override
     public void lose(Hid hid)
     {
-        
+        losses++;
     }
     
     /**
@@ -202,7 +222,7 @@ public class Gerty implements IGerty{
     @Override
     public void push(Hid hid)
     {
-        
+        pushes++;
     }
     
     /**
