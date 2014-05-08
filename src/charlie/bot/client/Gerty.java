@@ -20,6 +20,7 @@ import charlie.view.AMoneyManager;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.text.DecimalFormat;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +51,7 @@ public class Gerty implements IGerty{
     protected int blackjacks;
     protected int gameCount = 0;
     protected double avgBet = 0;
+    protected DecimalFormat df = new DecimalFormat("#.##");
     protected int maxBet = 0;
     protected Font font = new Font("Arial", Font.PLAIN, 18);
     protected Color textColor = Color.WHITE;
@@ -137,7 +139,7 @@ public class Gerty implements IGerty{
        g.drawString("Wins: " + wins, 5, 330);
        g.drawString("Charlies: " + charlies, 5, 310);
        g.drawString("Blackjacks: " + blackjacks, 5, 290);
-       g.drawString("Mean bet: " + avgBet, 5, 270);
+       g.drawString("Mean bet: " + df.format(avgBet), 5, 270);
        g.drawString("Max bet: " + maxBet, 5, 250);
        g.drawString("Minutes: ", 5, 230);
        g.drawString("Games: " + gameCount, 5, 210);
@@ -170,7 +172,7 @@ public class Gerty implements IGerty{
         this.trueCount = runningCount / numberOfDecks;
         this.botHand = new Hand(this.hid);
         this.gameCount++;
-	avgBet = (avgBet + betAmount) / gameCount;
+	avgBet = (avgBet * (gameCount - 1) + betAmount) / gameCount;
 	if (betAmount > maxBet) {
 		maxBet = betAmount;
 	}
