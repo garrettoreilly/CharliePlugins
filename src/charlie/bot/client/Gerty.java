@@ -33,7 +33,7 @@ public class Gerty implements IGerty{
     protected AMoneyManager moneyManager;
     protected final static int minBet = 5;
     protected int betAmount = 5;
-    protected int currentBet = 0;
+    protected int lastBet = 0;
     protected Hid hid;
     protected double numberOfDecks;
     protected int runningCount = 0;
@@ -47,6 +47,8 @@ public class Gerty implements IGerty{
     protected int charlies;
     protected int blackjacks;
     protected int gameCount = 0;
+    protected double avgBet = 0;
+    protected int maxBet = 0;
     
     @Override
      public void go( )
@@ -57,9 +59,9 @@ public class Gerty implements IGerty{
             LOG.info("trueCount = " + this.trueCount);
             LOG.info("betAmount = " + this.betAmount);
          }
-         if(this.currentBet > this.betAmount) {
+         if(this.lastBet > this.betAmount) {
              this.moneyManager.clearBet();
-             this.currentBet = 0;
+             this.lastBet = 0;
              try{
                  Thread.sleep(500);
              }
@@ -67,16 +69,16 @@ public class Gerty implements IGerty{
                  LOG.info("Thread error in sleep.");
              }
          }
-         for(int i = this.currentBet; i < this.betAmount; i += this.minBet) {
+         for(int i = this.lastBet; i < this.betAmount; i += this.minBet) {
                 this.moneyManager.upBet(this.minBet);
-                this.currentBet += this.minBet;
+                this.lastBet += this.minBet;
                 try{
                     Thread.sleep(1000);
                 }
                 catch (InterruptedException ex){
                 }
          }
-         this.hid = this.courier.bet(this.currentBet, 0);
+         this.hid = this.courier.bet(this.lastBet, 0);
          this.botHand = new Hand(this.hid);
          this.upCard = null;
          
@@ -129,10 +131,10 @@ public class Gerty implements IGerty{
        g.drawString("Wins: " + wins, 5, 330);
        g.drawString("Charlies: " + charlies, 5, 310);
        g.drawString("Blackjacks: " + blackjacks, 5, 290);
-       g.drawString("Mean bet: ", 5, 270);
-       g.drawString("Max bet: ", 5, 250);
+       g.drawString("Mean bet: " + avgBet, 5, 270);
+       g.drawString("Max bet: " + maxBet, 5, 250);
        g.drawString("Minutes: ", 5, 230);
-       g.drawString("Games: ", 5, 210);
+       g.drawString("Games: " + gameCount, 5, 210);
        g.drawString("True count: ", 5, 190);
        g.drawString("Running count: ", 5, 170);
        g.drawString("Shoe size: ", 5, 150);
@@ -162,6 +164,10 @@ public class Gerty implements IGerty{
         this.trueCount = runningCount / numberOfDecks;
         this.botHand = new Hand(this.hid);
         this.gameCount++;
+	avgBet = (avgBet + betAmount) / gameCount;
+	if (betAmount > maxBet) {
+		maxBet = betAmount;
+	}
     }
     
     /**
