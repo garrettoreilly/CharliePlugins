@@ -11,42 +11,74 @@ import charlie.advisor.BasicStrategy;
 import charlie.card.Card;
 import charlie.card.Hand;
 import charlie.card.Hid;
+import charlie.card.HoleCard;
+import charlie.dealer.Seat;
 import charlie.plugin.IGerty;
 import charlie.util.Play;
 import static charlie.util.Play.*;
 import charlie.view.AMoneyManager;
 import java.awt.Graphics2D;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author Thomas Wojnar, Garrett Oreilly
  */
 public class Gerty implements IGerty{
+    private final Logger LOG = LoggerFactory.getLogger(Gerty.class);
+   
     protected Courier courier;
     protected AMoneyManager moneyManager;
+    protected final static int minBet = 5;
     protected int betAmount = 5;
     protected int currentBet = 0;
     protected Hid hid;
     protected double numberOfDecks;
-    protected int runningCount;
+    protected int runningCount = 0;
     protected double trueCount;
     protected Hand botHand;
     protected Card upCard;
+    protected int gameCount = 0;
     
     @Override
      public void go( )
      {
-         if(currentBet > betAmount) {
-             moneyManager.clearBet();
-             currentBet = 0;
+         if(this.gameCount != 0) {
+            this.betAmount = ((int) Math.max(1.0, 1.0 + this.trueCount)) * this.minBet;
+            LOG.info("runningCount = " + this.runningCount);
+            LOG.info("trueCount = " + this.trueCount);
+            LOG.info("betAmount = " + this.betAmount);
          }
-         for(int i = currentBet; i < betAmount; i += 5) {
-                moneyManager.upBet(5);
-                currentBet += 5;
+         if(this.currentBet > this.betAmount) {
+             this.moneyManager.clearBet();
+             this.currentBet = 0;
+             try{
+                 Thread.sleep(500);
+             }
+             catch (InterruptedException ex){
+                 LOG.info("Thread error in sleep.");
+             }
          }
-         this.hid = courier.bet(currentBet, 0);
-         botHand = new Hand(this.hid);
+         for(int i = this.currentBet; i < this.betAmount; i += this.minBet) {
+                this.moneyManager.upBet(this.minBet);
+                this.currentBet += this.minBet;
+                try{
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException ex){
+                }
+         }
+         this.hid = this.courier.bet(this.currentBet, 0);
+         this.botHand = new Hand(this.hid);
+         this.upCard = null;
+         
+         try {
+                Thread.sleep(3000);
+            }
+        catch (InterruptedException ex) {
+        }
      }
      
      /**
@@ -107,7 +139,10 @@ public class Gerty implements IGerty{
     @Override
     public void endGame(int shoeSize)
     {
-        numberOfDecks = shoeSize / 52.0;
+        this.numberOfDecks = shoeSize / 52.0;
+        this.trueCount = runningCount / numberOfDecks;
+        this.botHand = new Hand(this.hid);
+        this.gameCount++;
     }
     
     /**
@@ -120,6 +155,7 @@ public class Gerty implements IGerty{
     @Override
     public void deal(Hid hid, Card card, int[] values)
     {
+        //LOG.info("dis card's value " + card.value());
         int currentCardValue = card.getRank();
         if(currentCardValue > 9 || currentCardValue == 1) {
             --runningCount;
@@ -128,12 +164,19 @@ public class Gerty implements IGerty{
             ++runningCount;
         }
         
-        if(hid.equals(this.hid)) {
+        if((hid.getSeat() == this.hid.getSeat())) {
+            LOG.info("Card added!");
             botHand.hit(card);
         }
-        else {
-            upCard = card;
+        else if(!(hid.getSeat().equals(Seat.YOU)) && !(card instanceof HoleCard)) {
+            LOG.info("Upcard added!");
+            this.upCard = new Card(card);
         }
+        
+        if((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() > 2) && !(this.botHand.isBroke())) {
+            play(hid);
+        }
+        
     }
     
     /**
@@ -221,32 +264,41 @@ public class Gerty implements IGerty{
     @Override
     public void play(Hid hid)
     {
-        Play advice;
-        advice = BasicStrategy.getPlay(this.botHand, this.upCard);
-        if(this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
-            advice = HIT;
+         try {
+                Thread.sleep(3000);
+            }
+        catch (InterruptedException ex) {
         }
-        else if(advice == SPLIT) {
-            int handValue = this.botHand.getValue();
-            if(handValue >= 17) {
-                advice = STAY;
-            }
-            else if(handValue == 11) {
-                advice = DOUBLE_DOWN;
-            }
-            else if(handValue <= 10) {
+        if((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() >= 2) && !(this.botHand.isBroke())) {
+            Play advice;
+            advice = BasicStrategy.getPlay(this.botHand, this.upCard);
+            if(this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
                 advice = HIT;
             }
-        }
-        
-        if(advice == STAY) {
-            courier.stay(hid);
-        }
-        else if(advice == HIT) {
-            courier.hit(hid);
-        }
-        else if(advice == DOUBLE_DOWN) {
-            courier.dubble(hid);
+            else if(advice == SPLIT) {
+                int handValue = this.botHand.getValue();
+                if(handValue >= 17) {
+                    advice = STAY;
+                }
+                else if(handValue == 11) {
+                    advice = DOUBLE_DOWN;
+                }
+                else if(handValue <= 10) {
+                    advice = HIT;
+                }
+            }
+
+            if(advice == STAY) {
+                courier.stay(hid);
+            }
+            else if(advice == HIT) {
+                courier.hit(hid);
+                //play(hid);
+            }
+            else if(advice == DOUBLE_DOWN) {
+                courier.dubble(hid);
+                //play(hid);
+            }
         }
     }
 }
