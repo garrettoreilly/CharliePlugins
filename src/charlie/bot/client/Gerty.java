@@ -98,8 +98,8 @@ public class Gerty implements IGerty{
          try {
                 Thread.sleep(3000);
          }
-        catch (InterruptedException ex) {
-        }
+         catch (InterruptedException ex) {
+         }
      }
      
      /**
