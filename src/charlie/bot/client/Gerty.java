@@ -153,7 +153,7 @@ public class Gerty implements IGerty{
         g.setColor(textColor);
         g.drawString("Pushes: " + pushes, 3, 390);
         g.drawString("Losses: " + losses, 3, 370);
-        g.drawString("Breaks: " + busts, 3, 350);
+        g.drawString("Busts: " + busts, 3, 350);
         g.drawString("Wins: " + wins, 3, 330);
         g.drawString("Charlies: " + charlies, 3, 310);
         g.drawString("Blackjacks: " + blackjacks, 3, 290);
