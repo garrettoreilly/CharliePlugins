@@ -77,8 +77,7 @@ public class Gerty implements IGerty{
              this.lastBet = 0;
              try {
                  Thread.sleep(500);
-             }
-             catch (InterruptedException ex){
+             } catch (InterruptedException ex){
                  LOG.info("Thread error in sleep.");
              }
          }
@@ -87,8 +86,7 @@ public class Gerty implements IGerty{
                 this.lastBet += this.minBet;
                 try {
                     Thread.sleep(1000);
-                }
-                catch (InterruptedException ex){
+                } catch (InterruptedException ex){
                 }
          }
          this.hid = this.courier.bet(this.lastBet, 0);
@@ -97,8 +95,7 @@ public class Gerty implements IGerty{
          
          try {
                 Thread.sleep(3000);
-         }
-         catch (InterruptedException ex) {
+         } catch (InterruptedException ex) {
          }
      }
      
@@ -201,8 +198,7 @@ public class Gerty implements IGerty{
         if (this.gameCount == 100) {
             try {
                 Thread.sleep(500000000);
-            }
-            catch (InterruptedException ex) {
+            } catch (InterruptedException ex) {
             }
         }
         
@@ -328,9 +324,8 @@ public class Gerty implements IGerty{
     {
          try {
                 Thread.sleep(3000);
-            }
-        catch (InterruptedException ex) {
-        }
+         } catch (InterruptedException ex) {
+         }
         if ((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() >= 2) && !(this.botHand.isBroke())) {
             Play advice;
             advice = BasicStrategy.getPlay(this.botHand, this.upCard);
