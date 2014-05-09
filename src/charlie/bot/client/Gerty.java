@@ -341,8 +341,16 @@ public class Gerty implements IGerty{
                 //LOG.info("hand value= " + handValue);
                 if (handValue >= 17) {
                     advice = STAY;
-                } else if ( handValue == 16) {
+                }
+                else if ( handValue == 16) {
                     if (this.upCard.value() <= 6) {
+                        advice = STAY;
+                    } else {
+                        advice = HIT;
+                    }
+                }
+                else if(handValue == 14) {
+                    if(this.upCard.value() != 7) {
                         advice = STAY;
                     } else {
                         advice = HIT;

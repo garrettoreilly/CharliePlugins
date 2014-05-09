@@ -51,6 +51,13 @@ public class Responder implements Runnable {
             if(handValue >= 17) {
                 advice = STAY;
             }
+            else if ( handValue == 16) {
+                if (upCard.value() <= 6) {
+                    advice = STAY;
+                } else {
+                    advice = HIT;
+                }
+            }
             else if(handValue == 14) {
                 if(upCard.value() != 7) {
                     advice = STAY;
