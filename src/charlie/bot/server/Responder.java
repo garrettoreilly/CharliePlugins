@@ -42,42 +42,34 @@ public class Responder implements Runnable {
         //LOG.info(upCard.toString());
         Play advice;
         advice = BasicStrategy.getPlay(this.botHand, upCard);
-        if(this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
+        if (this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
             advice = HIT;
-        }
-        else if(advice == SPLIT) {
+        } else if (advice == SPLIT) {
             int handValue = this.botHand.getValue();
             //LOG.info("hand value= " + handValue);
-            if(handValue >= 17) {
+            if (handValue >= 17) {
                 advice = STAY;
-            }
-            else if ( handValue == 16) {
+            } else if ( handValue == 16) {
                 if (upCard.value() <= 6) {
                     advice = STAY;
                 } else {
                     advice = HIT;
                 }
-            }
-            else if(handValue == 14) {
-                if(upCard.value() != 7) {
+            } else if (handValue == 14) {
+                if (upCard.value() != 7) {
                     advice = STAY;
-                }
-                else {
+                } else {
                     advice = HIT;
                 }
-            }
-            else if(handValue == 12) {
-                if(this.botHand.getCard(0).value() == 6) {
+            } else if (handValue == 12) {
+                if (this.botHand.getCard(0).value() == 6) {
                     advice = STAY;
-                }
-                else {
+                } else {
                     advice = DOUBLE_DOWN;
                 }
-            }
-            else if(handValue == 11) {
+            } else if (handValue == 11) {
                 advice = DOUBLE_DOWN;
-            }
-            else if(handValue <= 10) {
+            } else if (handValue <= 10) {
                 advice = HIT;
             }
         }
@@ -88,16 +80,13 @@ public class Responder implements Runnable {
             LOG.info("invalid thread");
         }
         
-        if(advice == HIT) {
+        if (advice == HIT) {
             this.dealer.hit(this.bot, this.botHand.getHid());
-        }
-        else if(advice == STAY) {
+        } else if (advice == STAY) {
             this.dealer.stay(this.bot, this.botHand.getHid());
-        }
-        else if(advice == DOUBLE_DOWN) {
+        } else if (advice == DOUBLE_DOWN) {
             this.dealer.doubleDown(this.bot, this.botHand.getHid());
-        }
-        else {
+        } else {
             LOG.info("invalid play");
         }
     }
