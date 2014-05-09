@@ -64,29 +64,28 @@ public class Gerty implements IGerty{
     @Override
      public void go( )
      {
-         if(this.gameCount != 0) {
+         if (this.gameCount != 0) {
             this.betAmount = ((int) Math.max(1.0, 1.0 + this.trueCount)) * this.minBet;
             LOG.info("runningCount = " + this.runningCount);
             LOG.info("trueCount = " + this.trueCount);
             LOG.info("betAmount = " + this.betAmount);
-         }
-         else {
+         } else {
              startTime = System.currentTimeMillis();
          }
-         if(this.lastBet > this.betAmount) {
+         if (this.lastBet > this.betAmount) {
              this.moneyManager.clearBet();
              this.lastBet = 0;
-             try{
+             try {
                  Thread.sleep(500);
              }
              catch (InterruptedException ex){
                  LOG.info("Thread error in sleep.");
              }
          }
-         for(int i = this.lastBet; i < this.betAmount; i += this.minBet) {
+         for (int i = this.lastBet; i < this.betAmount; i += this.minBet) {
                 this.moneyManager.upBet(this.minBet);
                 this.lastBet += this.minBet;
-                try{
+                try {
                     Thread.sleep(1000);
                 }
                 catch (InterruptedException ex){
@@ -98,7 +97,7 @@ public class Gerty implements IGerty{
          
          try {
                 Thread.sleep(3000);
-            }
+         }
         catch (InterruptedException ex) {
         }
      }
@@ -140,16 +139,15 @@ public class Gerty implements IGerty{
     public void render(Graphics2D g)
     {
         //long currentTime;
-        if(startTime == 0) {
+        if (startTime == 0) {
             currentMinutes = 0;
             currentSeconds = "00";
-        }
-        else {
+        } else {
             currentTime = (System.currentTimeMillis() - startTime);
             currentMinutes = currentTime / 60000;
             currentSeconds = Long.toString(currentTime / 1000 % 60);
             
-            if(Integer.parseInt(currentSeconds) < 10) {
+            if (Integer.parseInt(currentSeconds) < 10) {
                 currentSeconds = "0" + currentSeconds;
             }
         }
@@ -200,7 +198,7 @@ public class Gerty implements IGerty{
 		maxBet = betAmount;
 	}
         
-        if(this.gameCount == 100) {
+        if (this.gameCount == 100) {
             try {
                 Thread.sleep(500000000);
             }
@@ -222,23 +220,21 @@ public class Gerty implements IGerty{
     {
         //LOG.info("dis card's value " + card.value());
         int currentCardValue = card.getRank();
-        if(currentCardValue > 9 || currentCardValue == 1) {
+        if (currentCardValue > 9 || currentCardValue == 1) {
             --runningCount;
-        }
-        else if(currentCardValue < 7) {
+        } else if (currentCardValue < 7) {
             ++runningCount;
         }
         
-        if((hid.getSeat() == this.hid.getSeat())) {
+        if ((hid.getSeat() == this.hid.getSeat())) {
             LOG.info("Card added!");
             botHand.hit(card);
-        }
-        else if(!(hid.getSeat().equals(Seat.YOU)) && !(card instanceof HoleCard)) {
+        } else if (!(hid.getSeat().equals(Seat.YOU)) && !(card instanceof HoleCard)) {
             LOG.info("Upcard added!");
             this.upCard = new Card(card);
         }
         
-        if((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() > 2) && !(this.botHand.isBroke())) {
+        if ((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() > 2) && !(this.botHand.isBroke())) {
             play(hid);
         }
         
@@ -335,50 +331,47 @@ public class Gerty implements IGerty{
             }
         catch (InterruptedException ex) {
         }
-        if((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() >= 2) && !(this.botHand.isBroke())) {
+        if ((hid.getSeat().equals(Seat.YOU)) && (this.botHand.size() >= 2) && !(this.botHand.isBroke())) {
             Play advice;
             advice = BasicStrategy.getPlay(this.botHand, this.upCard);
-            if(this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
+            if (this.botHand.size() != 2 && advice == DOUBLE_DOWN) {
                 advice = HIT;
-            }
-            else if(advice == SPLIT) {
+            } else if (advice == SPLIT) {
                 int handValue = this.botHand.getValue();
                 //LOG.info("hand value= " + handValue);
-                if(handValue >= 17) {
+                if (handValue >= 17) {
                     advice = STAY;
-                }
-                else if(handValue == 14) {
-                    if(this.upCard.value() != 7) {
+                } else if ( handValue == 16) {
+                    if (this.upCard.value() <= 6) {
                         advice = STAY;
-                    }
-                    else {
+                    } else {
                         advice = HIT;
                     }
-                }
-                else if(handValue == 12) {
-                    if(this.botHand.getCard(0).value() == 6) {
+                } else if (handValue == 14) {
+                    if (this.upCard.value() != 7) {
                         advice = STAY;
+                    } else {
+                        advice = HIT;
                     }
-                    else {
+                } else if (handValue == 12) {
+                    if (this.botHand.getCard(0).value() == 6) {
+                        advice = STAY;
+                    } else {
                         advice = DOUBLE_DOWN;
                     }
-                }
-                else if(handValue == 11) {
+                } else if (handValue == 11) {
                     advice = DOUBLE_DOWN;
-                }
-                else if(handValue <= 10) {
+                } else if (handValue <= 10) {
                     advice = HIT;
                 }
             }
 
-            if(advice == STAY) {
+            if (advice == STAY) {
                 courier.stay(hid);
-            }
-            else if(advice == HIT) {
+            } else if (advice == HIT) {
                 courier.hit(hid);
                 //play(hid);
-            }
-            else if(advice == DOUBLE_DOWN) {
+            } else if (advice == DOUBLE_DOWN) {
                 courier.dubble(hid);
                 //play(hid);
             }
